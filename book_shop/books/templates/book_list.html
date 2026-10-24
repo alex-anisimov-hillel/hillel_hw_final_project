@@ -20,11 +20,13 @@
         </form>
             <a href="{% url 'payment:cart_detail' %}">{% translate "View cart" %}</a>
         {% for book in books %}
+        {% cache 300 book_list_item book.pk book.stock book.price LANGUAGE_CODE %}
         <div>
             <p>{% translate "Name: " %}{{book.title}}</p>
             <p>{% translate "Price: " %}{{book.price}}</p>
             <p>{% translate "In Stock: " %}{{book.stock}}</p>
         </div>
+        {% endcache %}
         <div>
             <form action="{% url 'payment:cart_add' book.id %}" method="post">
                 {% csrf_token %}

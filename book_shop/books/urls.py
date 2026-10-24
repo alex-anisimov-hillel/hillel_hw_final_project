@@ -24,7 +24,7 @@ class BookViewSet(viewsets.ModelViewSet):
 router.register(r"books", BookViewSet)
 
 urlpatterns = [
-    path("", cache_page(60 * 5)(books_views.BooksListView.as_view()), name="book_list"),
+    path("", books_views.BooksListView.as_view(), name="book_list"),
     path("<pk>/", books_views.BookDetailView.as_view(), name="book_detail"),
     path(
         "admin/create/<pk>/", books_views.BookCreateView.as_view(), name="book_create"
