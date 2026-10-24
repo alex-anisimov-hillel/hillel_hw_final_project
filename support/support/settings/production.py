@@ -62,3 +62,10 @@ if not all(origin.startswith("https://") for origin in CSRF_TRUSTED_ORIGINS):
 DATABASES["default"]["CONN_MAX_AGE"] = env_int("DB_CONN_MAX_AGE", 60)
 
 LOGGING["root"] = {"handlers": ["console"], "level": "WARNING"}
+
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"
+    },
+}

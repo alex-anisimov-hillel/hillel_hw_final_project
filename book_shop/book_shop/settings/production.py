@@ -92,3 +92,10 @@ CORS_ALLOWED_ORIGINS = [
 # Log warnings and errors from everything (not just "books") to the console so
 # `docker logs` shows them; Django's own request errors are included.
 LOGGING["root"] = {"handlers": ["console"], "level": "WARNING"}
+
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"
+    },
+}
