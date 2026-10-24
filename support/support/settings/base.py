@@ -124,13 +124,17 @@ REDIS_PASSWORD = env_str("REDIS_PASSWORD")
 # Managed Redis (e.g. Railway) needs a password; local docker-compose has none.
 _redis_auth = f":{quote(REDIS_PASSWORD, safe='')}@" if REDIS_PASSWORD else ""
 REDIS_BASE_URL = f"redis://{_redis_auth}{REDIS_HOST}:{REDIS_PORT}"
+# Logical Redis databases. ProjectA uses 0/1/2, so in the shared docker-compose
+# stack this project gets 3 (broker) / 4 (cache) / 5 (results): no collisions.
+REDIS_BROKER_DB = env_int("REDIS_BROKER_DB", 0)
+REDIS_CACHE_DB = env_int("REDIS_CACHE_DB", 1)
+REDIS_RESULT_DB = env_int("REDIS_RESULT_DB", 2)
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": f"{REDIS_BASE_URL}/{REDIS_CACHE_DB}",
     }
 }
-
 # ---------------------------------------------------------------------------
 # Logging (every line carries the request id, see support/request_id.py)
 # ---------------------------------------------------------------------------
