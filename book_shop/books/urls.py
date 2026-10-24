@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from book_shop.custom_permissions import IsAdminOrReadOnly
