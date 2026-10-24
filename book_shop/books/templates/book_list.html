@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load i18n %}
+{% load i18n cache %}
 <body>
     <div>
-        {% load i18n %}
         <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
             <input name="next" type="hidden" value="{{ redirect_to }}">
             <select name="language">
