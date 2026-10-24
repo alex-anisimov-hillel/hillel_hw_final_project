@@ -1,0 +1,19 @@
+[run]
+source = .
+branch = False
+omit =
+    */migrations/*
+    */tests/*
+    */test_*.py
+    conftest.py
+    manage.py
+    */wsgi.py
+    */asgi.py
+    .venv/*
+    venv/*
+    static/*
+    staticfiles/*
+
+[report]
+show_missing = True
+skip_covered = False

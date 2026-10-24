@@ -1,0 +1,29 @@
+{% extends "warehouse_mgmt/base.html" %}
+{% load i18n %}
+{% block content %}
+<h1 class="h3 mb-3">{% translate "Stock levels" %}</h1>
+<form method="get" class="row g-2 mb-3">
+  <div class="col-auto"><input name="q" value="{{ q }}" class="form-control" placeholder="{% translate 'Title, ISBN or book ID' %}"></div>
+  <div class="col-auto"><button class="btn btn-primary">{% translate "Search" %}</button></div>
+</form>
+<table class="table table-striped align-middle">
+  <thead><tr>
+    <th>{% translate "Book ID" %}</th><th>{% translate "Title" %}</th><th>{% translate "Warehouse" %}</th>
+    <th class="text-end">{% translate "On hand" %}</th><th class="text-end">{% translate "Reserved" %}</th><th class="text-end">{% translate "Available" %}</th>
+  </tr></thead>
+  <tbody>
+  {% for item in items %}
+    <tr>
+      <td>{{ item.book_id }}</td><td>{{ item.title|default:"—" }}</td><td>{{ item.warehouse.code }}</td>
+      <td class="text-end">{{ item.quantity }}</td><td class="text-end">{{ item.reserved }}</td>
+      <td class="text-end">
+        <span class="badge {% if item.available <= item.low_stock_threshold %}text-bg-danger{% else %}text-bg-success{% endif %}">{{ item.available }}</span>
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="6" class="text-muted">{% translate "No stock items yet." %}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% include "warehouse_mgmt/_pagination.html" %}
+{% endblock %}

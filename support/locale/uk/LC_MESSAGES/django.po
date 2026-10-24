@@ -1,0 +1,293 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-21 11:05+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: warehouse_mgmt/exceptions.py:19
+msgid "Not enough stock to fulfil the request."
+msgstr "Недостатньо товару на складі для виконання запиту."
+
+#: warehouse_mgmt/exceptions.py:36
+msgid "The reservation is in a state that does not allow this action."
+msgstr "Статус резервування не дозволяє цю дію."
+
+#: warehouse_mgmt/exceptions.py:42
+msgid "The adjustment would make stock negative or below the reserved amount."
+msgstr "Коригування зробить залишок від'ємним або меншим за зарезервований."
+
+#: warehouse_mgmt/exceptions.py:48
+msgid "Warehouse not found or inactive."
+msgstr "Склад не знайдено або він неактивний."
+
+#: warehouse_mgmt/exceptions.py:72
+msgid "Internal server error."
+msgstr "Внутрішня помилка сервера."
+
+#: warehouse_mgmt/exceptions.py:82
+msgid "Invalid input."
+msgstr "Некоректні дані."
+
+#: warehouse_mgmt/models.py:14
+msgid "Name"
+msgstr "Назва"
+
+#: warehouse_mgmt/models.py:15
+msgid "Code"
+msgstr "Код"
+
+#: warehouse_mgmt/models.py:16
+msgid "Address"
+msgstr "Адреса"
+
+#: warehouse_mgmt/models.py:17 users/models.py:39
+msgid "Active"
+msgstr "Активний"
+
+#: warehouse_mgmt/models.py:20
+msgid "Priority"
+msgstr "Пріоритет"
+
+#: warehouse_mgmt/models.py:21
+msgid "Lower value = used first when allocating stock."
+msgstr ""
+"Менше значення — склад використовується першим під час розподілу залишків."
+
+#: warehouse_mgmt/models.py:27 warehouse_mgmt/models.py:41
+#: warehouse_mgmt/templates/warehouse_mgmt/base.html:6
+#: warehouse_mgmt/templates/warehouse_mgmt/base.html:12
+#: warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:11
+msgid "Warehouse"
+msgstr "Склад"
+
+#: warehouse_mgmt/models.py:28
+msgid "Warehouses"
+msgstr "Склади"
+
+#: warehouse_mgmt/models.py:43 warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:11
+msgid "Book ID"
+msgstr "ID книги"
+
+#: warehouse_mgmt/models.py:44 warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:11
+msgid "Title"
+msgstr "Назва"
+
+#: warehouse_mgmt/models.py:45
+msgid "ISBN"
+msgstr "ISBN"
+
+#: warehouse_mgmt/models.py:46 warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:12
+msgid "On hand"
+msgstr "В наявності"
+
+#: warehouse_mgmt/models.py:47 warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:12
+msgid "Reserved"
+msgstr "Зарезервовано"
+
+#: warehouse_mgmt/models.py:49
+msgid "Low stock threshold"
+msgstr "Поріг малого залишку"
+
+#: warehouse_mgmt/models.py:54
+msgid "Stock item"
+msgstr "Позиція на складі"
+
+#: warehouse_mgmt/models.py:55
+msgid "Stock items"
+msgstr "Позиції на складі"
+
+#: warehouse_mgmt/models.py:81
+msgid "Pending"
+msgstr "Очікує"
+
+#: warehouse_mgmt/models.py:82
+msgid "Confirmed"
+msgstr "Підтверджено"
+
+#: warehouse_mgmt/models.py:83
+msgid "Cancelled"
+msgstr "Скасовано"
+
+#: warehouse_mgmt/models.py:84
+msgid "Expired"
+msgstr "Прострочено"
+
+#: warehouse_mgmt/models.py:88
+#: warehouse_mgmt/templates/warehouse_mgmt/reservation_list.html:7
+msgid "Order ID"
+msgstr "ID замовлення"
+
+#: warehouse_mgmt/models.py:94
+#: warehouse_mgmt/templates/warehouse_mgmt/reservation_list.html:7
+msgid "Status"
+msgstr "Статус"
+
+#: warehouse_mgmt/models.py:96
+#: warehouse_mgmt/templates/warehouse_mgmt/reservation_list.html:7
+msgid "Expires at"
+msgstr "Діє до"
+
+#: warehouse_mgmt/models.py:109
+msgid "Stock reservation"
+msgstr "Резервування"
+
+#: warehouse_mgmt/models.py:110
+msgid "Stock reservations"
+msgstr "Резервування"
+
+#: warehouse_mgmt/models.py:132
+msgid "Restock"
+msgstr "Поповнення"
+
+#: warehouse_mgmt/models.py:133
+msgid "Reserve"
+msgstr "Резервування"
+
+#: warehouse_mgmt/models.py:134
+msgid "Release"
+msgstr "Зняття резерву"
+
+#: warehouse_mgmt/models.py:135
+msgid "Ship"
+msgstr "Відвантаження"
+
+#: warehouse_mgmt/models.py:136
+msgid "Adjustment"
+msgstr "Коригування"
+
+#: warehouse_mgmt/models.py:141
+msgid "Kind"
+msgstr "Тип"
+
+#: warehouse_mgmt/models.py:142
+msgid "On hand change"
+msgstr "Зміна залишку"
+
+#: warehouse_mgmt/models.py:143
+msgid "Reserved change"
+msgstr "Зміна резерву"
+
+#: warehouse_mgmt/models.py:151
+msgid "Note"
+msgstr "Примітка"
+
+#: warehouse_mgmt/models.py:155
+msgid "Created at"
+msgstr "Створено"
+
+#: warehouse_mgmt/models.py:159
+msgid "Stock movement"
+msgstr "Рух товару"
+
+#: warehouse_mgmt/models.py:160
+msgid "Stock movements"
+msgstr "Рух товарів"
+
+#: warehouse_mgmt/serializers.py:109
+msgid "Delta must not be zero."
+msgstr "Зміна не може дорівнювати нулю."
+
+#: warehouse_mgmt/templates/warehouse_mgmt/base.html:14
+msgid "Stock"
+msgstr "Склад (залишки)"
+
+#: warehouse_mgmt/templates/warehouse_mgmt/base.html:15
+#: warehouse_mgmt/templates/warehouse_mgmt/reservation_list.html:4
+msgid "Reservations"
+msgstr "Резервування"
+
+#: warehouse_mgmt/templates/warehouse_mgmt/base.html:33
+msgid "Sign out"
+msgstr "Вийти"
+
+#: warehouse_mgmt/templates/warehouse_mgmt/reservation_list.html:7
+msgid "Items"
+msgstr "Позиції"
+
+#: warehouse_mgmt/templates/warehouse_mgmt/reservation_list.html:18
+msgid "No reservations yet."
+msgstr "Резервувань ще немає."
+
+#: warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:4
+msgid "Stock levels"
+msgstr "Рівні запасів"
+
+#: warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:6
+msgid "Title, ISBN or book ID"
+msgstr "Назва, ISBN або ID книги"
+
+#: warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:7
+msgid "Search"
+msgstr "Пошук"
+
+#: warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:12
+msgid "Available"
+msgstr "Доступно"
+
+#: warehouse_mgmt/templates/warehouse_mgmt/stock_list.html:24
+msgid "No stock items yet."
+msgstr "Позицій ще немає."
+
+#: users/admin.py:15
+msgid "Personal info"
+msgstr "Особисті дані"
+
+#: users/admin.py:17
+msgid "Permissions"
+msgstr "Дозволи"
+
+#: users/models.py:35
+msgid "Email"
+msgstr "Email"
+
+#: users/models.py:36
+msgid "First name"
+msgstr "Ім'я"
+
+#: users/models.py:37
+msgid "Last name"
+msgstr "Прізвище"
+
+#: users/models.py:38
+msgid "Staff"
+msgstr "Персонал"
+
+#: users/models.py:40
+msgid "Date joined"
+msgstr "Дата реєстрації"
+
+#: users/models.py:48
+msgid "User"
+msgstr "Користувач"
+
+#: users/models.py:49
+msgid "Users"
+msgstr "Користувачі"
+
+#: users/templates/registration/login.html:3
+#: users/templates/registration/login.html:7
+#: users/templates/registration/login.html:11
+msgid "Sign in"
+msgstr "Увійти"
+
+#: warehouse_service/settings/base.py:209
+msgid "English"
+msgstr "English"
+
+#: warehouse_service/settings/base.py:209
+msgid "Ukrainian"
+msgstr "Українська"

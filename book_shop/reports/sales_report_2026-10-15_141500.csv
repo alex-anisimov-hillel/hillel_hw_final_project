@@ -1,0 +1,13 @@
+Sales report,2026-10-15T14:15:00.031066+00:00
+
+Orders by status
+status,orders
+
+Revenue (paid and later),0.00
+
+Top 5 books by units sold
+title,units
+
+Low stock (< 10)
+title,stock
+The Lord of the Rings,8

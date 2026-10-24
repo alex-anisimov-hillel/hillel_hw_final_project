@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Store</title>
+</head>
+<body>
+    {% load i18n %}
+        <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <select name="language">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                        {{ language.name_local }} ({{ language.code }})
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Go">
+        </form>
+    {% if user.is_authenticated %}
+    {% translate "Hi," %} {{user.email}}
+        {% if user.is_superuser %}
+        <br><br>
+        <a href="{%url 'admin:index' %}">{% translate "Admin" %}</a>&nbsp&nbsp&nbsp<a href="{%url 'book_list' %}">{% translate "Books" %}</a>
+        <br>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">{% translate "Log Out" %}</button>
+        </form>
+        {% else %}
+        <br><br>
+        <a href="{%url 'book_list' %}">{% translate "Books" %}</a>
+        <br>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">{% translate "Log Out" %}</button>
+        </form>
+        {% endif %}
+
+    {% else %}
+    <p>{% translate "You are not logged in" %}</p>
+    <a href="{%url 'login' %}">{% translate "Log in" %}</a>&nbsp&nbsp&nbsp<a href="{%url 'registration' %}">{% translate "Sign up" %}</a>
+    {% endif %}
+</body>
+</html>

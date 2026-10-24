@@ -1,0 +1,15 @@
+{% load i18n %}
+<div>
+    <div>
+        <h2>{% translate "Order confirmation" %}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <div>
+                <h5>{% translate "Total amount" %}: <strong>{{total_price}}</strong></h5>
+            </div>
+            <button type="submit">{% translate "Confirm" %}</button>
+        </form>
+        <a href="{% url 'payment:cart_detail' %}">{% translate "Back to cart" %}</a>
+    </div>
+</div>

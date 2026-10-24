@@ -1,0 +1,325 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-12 15:32+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
+#: book_shop/settings.py:148
+msgid "English"
+msgstr "Англійська"
+
+#: book_shop/settings.py:149
+msgid "Ukrainian"
+msgstr "Українська"
+
+#: book_shop/templates/home.html:24
+msgid "Hi,"
+msgstr "Доброго дня,"
+
+#: book_shop/templates/home.html:27
+msgid "Admin"
+msgstr "Адміністрування"
+
+#: book_shop/templates/home.html:27 book_shop/templates/home.html:35
+#: books/models.py:18
+msgid "Books"
+msgstr "Книжки"
+
+#: book_shop/templates/home.html:31 book_shop/templates/home.html:39
+msgid "Log Out"
+msgstr "Вийти"
+
+#: book_shop/templates/home.html:44
+msgid "You are not logged in"
+msgstr "Ви не війшли у систему"
+
+#: book_shop/templates/home.html:45
+msgid "Log in"
+msgstr "Вхід"
+
+#: book_shop/templates/home.html:45
+msgid "Sign up"
+msgstr "Реєстрація"
+
+#: books/models.py:6
+msgid "Book Title"
+msgstr "Назва книжки"
+
+#: books/models.py:7
+msgid "Author"
+msgstr "Автор"
+
+#: books/models.py:8
+msgid "Book Category"
+msgstr "Категорія книжки"
+
+#: books/models.py:9 orders/models.py:37
+#: orders/templates/cart/cart_detail.html:12
+msgid "Price"
+msgstr "Ціна"
+
+#: books/models.py:10 payment/models.py:28
+msgid "Description"
+msgstr "Опис"
+
+#: books/models.py:11
+msgid "Stock"
+msgstr "К-ть складі"
+
+#: books/models.py:17 orders/models.py:36
+msgid "Book"
+msgstr "Книжка"
+
+#: books/templates/book_list.html:21
+msgid "View cart"
+msgstr "Передивитися кошик"
+
+#: books/templates/book_list.html:24
+msgid "Name: "
+msgstr "Назва: "
+
+#: books/templates/book_list.html:25
+msgid "Price: "
+msgstr "Ціна: "
+
+#: books/templates/book_list.html:26
+msgid "In Stock: "
+msgstr "Кількість на складі: "
+
+#: books/templates/book_list.html:32
+msgid "Add to cart"
+msgstr "Додати до кошика"
+
+#: categories/models.py:8
+msgid "Category Name"
+msgstr "Назва категорії"
+
+#: categories/models.py:9
+msgid "Category Slug"
+msgstr "Ярлик катерогії"
+
+#: categories/models.py:16
+msgid "Categories"
+msgstr "Категорії"
+
+#: orders/models.py:18 payment/models.py:22 users/models.py:46
+msgid "User"
+msgstr "Користувач"
+
+#: orders/models.py:19 users/models.py:30
+msgid "Email"
+msgstr "Електронна пошта"
+
+#: orders/models.py:20
+msgid "Phone number"
+msgstr "Номер телефону"
+
+#: orders/models.py:21
+msgid "Address"
+msgstr "Адреса"
+
+#: orders/models.py:22
+msgid "City"
+msgstr "Місто"
+
+#: orders/models.py:23 orders/templates/orders/success.html:4
+#: payment/models.py:27
+msgid "Status"
+msgstr "Статус"
+
+#: orders/models.py:24
+msgid "Total price"
+msgstr "Ціна загалом"
+
+#: orders/models.py:25
+msgid "Payment method"
+msgstr "Метод оплати"
+
+#: orders/models.py:31
+msgid "Orders"
+msgstr "Замовлення"
+
+#: orders/models.py:35 orders/templates/cart/cart_detail.html:38
+#: orders/templates/orders/success.html:2
+#: payment/templates/payment/checkout.html:11
+msgid "Order"
+msgstr "Замовлення"
+
+#: orders/models.py:38 orders/templates/cart/cart_detail.html:13
+msgid "Quantity"
+msgstr "Кількість"
+
+#: orders/templates/cart/cart_detail.html:2
+msgid "Cart detail"
+msgstr "Деталі кошика"
+
+#: orders/templates/cart/cart_detail.html:4
+msgid "Cart is empty"
+msgstr "Кошик пустий"
+
+#: orders/templates/cart/cart_detail.html:11
+msgid "Item"
+msgstr "Предмет"
+
+#: orders/templates/cart/cart_detail.html:14
+#: orders/templates/orders/success.html:3
+msgid "Total"
+msgstr "Загалом"
+
+#: orders/templates/cart/cart_detail.html:25
+msgid "Delete"
+msgstr "Видалити"
+
+#: orders/templates/cart/cart_detail.html:32
+msgid "Order total"
+msgstr "Замовлення загалом"
+
+#: orders/templates/cart/cart_detail.html:42
+msgid "Go back to the list"
+msgstr "Назад до списку"
+
+#: orders/templates/orders/order_create.html:3
+msgid "Order confirmation"
+msgstr "Підтвердження замовлення"
+
+#: orders/templates/orders/order_create.html:8
+msgid "Total amount"
+msgstr "Ціна загалом"
+
+#: orders/templates/orders/order_create.html:10
+msgid "Confirm"
+msgstr "Підтвердити"
+
+#: orders/templates/orders/order_create.html:12
+#: orders/templates/orders/success.html:6
+msgid "Back to cart"
+msgstr "Назад до кошика"
+
+#: orders/templates/orders/success.html:2
+msgid "was successfully created"
+msgstr "було успішно створено"
+
+#: orders/templates/orders/success.html:5
+#: payment/templates/payment/checkout.html:6
+#: payment/templates/payment/checkout.html:32
+msgid "Checkout"
+msgstr "До оплати"
+
+#: payment/models.py:21
+msgid "ID"
+msgstr "ID"
+
+#: payment/models.py:23
+msgid "Stripe Payment Intent"
+msgstr "Stripe Intent оплати"
+
+#: payment/models.py:24
+msgid "Stripe Charge ID"
+msgstr "ID Stripe стягування"
+
+#: payment/models.py:25 payment/templates/payment/checkout.html:13
+msgid "Amount"
+msgstr "Кількість"
+
+#: payment/models.py:26 payment/templates/payment/checkout.html:17
+msgid "Currency"
+msgstr "Валюта"
+
+#: payment/models.py:29
+msgid "Metadata"
+msgstr "Метадата"
+
+#: payment/models.py:30
+msgid "Error"
+msgstr "Помилка"
+
+#: payment/models.py:31
+msgid "Refund Amount"
+msgstr "Кількість повернено"
+
+#: payment/models.py:35
+msgid "Stripe Payment"
+msgstr "Stripe оплата"
+
+#: payment/models.py:36
+msgid "Stripe Payments"
+msgstr "Stripe оплати"
+
+#: payment/templates/payment/checkout.html:11
+msgid "checkout"
+msgstr "до оплати"
+
+#: payment/templates/payment/checkout.html:25
+msgid "Payment description"
+msgstr "Опис оплати"
+
+#: payment/templates/payment/checkout.html:26
+msgid "Add your comments here (optional)"
+msgstr "Додайте ваші коментарі тут (необов'язково)"
+
+#: payment/templates/payment/checkout.html:29
+msgid "Card details"
+msgstr "Деталі карти"
+
+#: users/models.py:31
+msgid "First Name"
+msgstr "Ім'я"
+
+#: users/models.py:32
+msgid "Last name"
+msgstr "Прізвище"
+
+#: users/models.py:33
+msgid "Phone Number"
+msgstr "Номер телефону"
+
+#: users/models.py:34
+msgid "Staff"
+msgstr "Персонал"
+
+#: users/models.py:35
+msgid "Active"
+msgstr "Активний"
+
+#: users/models.py:47
+msgid "Users"
+msgstr "Користувачі"
+
+#, python-format
+msgid "%(title)s (requested %(requested)s, available %(available)s)"
+msgstr "%(title)s (запитано %(requested)s, доступно %(available)s)"
+
+#, python-format
+msgid "Not enough stock for: %(items)s"
+msgstr "Недостатньо книг на складі: %(items)s"
+
+msgid "Your order could not be fulfilled"
+msgstr "Ваше замовлення не вдалося виконати"
+
+#, python-format
+msgid ""
+"Sorry, order #%(order_id)s was cancelled because some books ran out of "
+"stock."
+msgstr ""
+"Вибачте, замовлення №%(order_id)s скасовано, бо частина книг закінчилась на "
+"складі."
+
+msgid "Warehouse reservation"
+msgstr "Резервування на складі"
+
+msgid "Reservation status"
+msgstr "Статус резервування"

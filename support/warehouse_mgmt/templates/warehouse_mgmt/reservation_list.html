@@ -1,0 +1,23 @@
+{% extends "warehouse_mgmt/base.html" %}
+{% load i18n %}
+{% block content %}
+<h1 class="h3 mb-3">{% translate "Reservations" %}</h1>
+<table class="table table-striped align-middle">
+  <thead><tr>
+    <th>{% translate "Order ID" %}</th><th>{% translate "Status" %}</th><th>{% translate "Items" %}</th><th>{% translate "Expires at" %}</th>
+  </tr></thead>
+  <tbody>
+  {% for r in reservations %}
+    <tr>
+      <td>#{{ r.order_id }}</td>
+      <td><span class="badge text-bg-secondary">{{ r.get_status_display }}</span></td>
+      <td>{% for line in r.lines.all %}{{ line.quantity }} × #{{ line.book_id }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+      <td>{{ r.expires_at|date:"Y-m-d H:i" }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4" class="text-muted">{% translate "No reservations yet." %}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% include "warehouse_mgmt/_pagination.html" %}
+{% endblock %}

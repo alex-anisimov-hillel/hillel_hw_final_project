@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Secrets - commit .env.example only
+.env
+!.env.example
+
+# Tests / coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Django
+staticfiles/
+reports/*.csv
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+
+# ProjectB build artefacts
+support/staticfiles/
+support/reports/*.csv

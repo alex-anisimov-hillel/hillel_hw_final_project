@@ -1,0 +1,257 @@
+name: Django CI/CD
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# A newer run on the same branch/PR cancels the older one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.14" # keep in sync with the root Dockerfile
+  # Falls back to a placeholder on forks/PRs where the secret is not available.
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME || 'dockerhub-user' }}/book-shop
+
+defaults:
+  run:
+    working-directory: book_shop
+
+jobs:
+  lint:
+    name: Lint (flake8 + black)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: book_shop/requirements-lint.txt
+
+      - name: Install linters
+        run: pip install -r requirements-lint.txt
+
+      - name: flake8 (book_shop)
+        run: flake8 .
+
+      - name: black (book_shop, check only)
+        run: black --check --diff .
+
+      - name: flake8 (support / warehouse service)
+        working-directory: support
+        run: flake8 .
+
+      - name: black (support, check only)
+        working-directory: support
+        run: black --check --diff .
+
+  test:
+    name: Tests (pytest + coverage)
+    runs-on: ubuntu-latest
+    needs: lint
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: books_db
+          POSTGRES_USER: books_db_user
+          POSTGRES_PASSWORD: ci-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U books_db_user -d books_db"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # An env var takes precedence over pytest.ini, so be explicit.
+      DJANGO_SETTINGS_MODULE: book_shop.settings.development
+      DJANGO_SECRET_KEY: ci-only-not-a-secret
+      POSTGRES_DB: books_db
+      POSTGRES_USER: books_db_user
+      POSTGRES_PASSWORD: ci-password
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: "5432"
+      REDIS_HOST: localhost
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: book_shop/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Django system check
+        run: python manage.py check
+
+      - name: Fail on model changes without a migration
+        run: python manage.py makemigrations --check --dry-run
+
+      - name: Production settings sanity check
+        env:
+          DJANGO_SETTINGS_MODULE: book_shop.settings.production
+          DJANGO_SECRET_KEY: ci-check-only-0123456789-0123456789-0123456789-0123456789
+          DJANGO_ALLOWED_HOSTS: shop.example.com
+          CSRF_TRUSTED_ORIGINS: https://shop.example.com
+          EMAIL_HOST_USER: ci
+          EMAIL_HOST_PASSWORD: ci
+        run: python manage.py check --deploy --fail-level ERROR
+
+      - name: pytest with coverage
+        run: >
+          pytest
+          --cov
+          --cov-report=term-missing
+          --cov-report=xml
+          --cov-report=html
+          --cov-fail-under=70
+
+      # ---- ProjectB (support/): same Postgres service, its own database ----
+      - name: "support: Django system check"
+        working-directory: support
+        env:
+          DJANGO_SETTINGS_MODULE: support.settings.development
+        run: python manage.py check
+
+      - name: "support: fail on model changes without a migration"
+        working-directory: support
+        env:
+          DJANGO_SETTINGS_MODULE: support.settings.development
+        run: python manage.py makemigrations --check --dry-run
+
+      - name: "support: production settings sanity check"
+        working-directory: support
+        env:
+          DJANGO_SETTINGS_MODULE: support.settings.production
+          DJANGO_SECRET_KEY: ci-check-only-0123456789-0123456789-0123456789-0123456789
+          DJANGO_ALLOWED_HOSTS: warehouse.example.com
+          CSRF_TRUSTED_ORIGINS: https://warehouse.example.com
+          WEBHOOK_SECRET: ci-check-only-webhook-secret
+        run: python manage.py check --deploy --fail-level ERROR
+
+      - name: "support: pytest with coverage (PostgreSQL, incl. concurrency tests)"
+        working-directory: support
+        env:
+          DJANGO_SETTINGS_MODULE: support.settings.test
+          WAREHOUSE_POSTGRES_DB: warehouse_db
+        run: >
+          pytest
+          --cov
+          --cov-report=term-missing
+          --cov-report=xml
+          --cov-fail-under=70
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: |
+            book_shop/coverage.xml
+            book_shop/htmlcov/
+            support/coverage.xml
+          if-no-files-found: ignore
+
+  docker:
+    name: Build & push Docker image
+    runs-on: ubuntu-latest
+    needs: test
+    # Push only from main and version tags; PRs just verify that the image builds.
+    env:
+      PUSH_IMAGE: ${{ github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Docker image metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,format=short
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=ref,event=pr
+
+      # Build once into the local Docker daemon and smoke-test the image:
+      # this catches a broken COPY/requirements and a broken production config.
+      - name: Build image (local, for smoke test)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile
+          load: true
+          push: false
+          tags: book-shop:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test the image
+        run: >
+          docker run --rm
+          -e DJANGO_SECRET_KEY=ci-check-only-0123456789-0123456789-0123456789-0123456789
+          -e DJANGO_ALLOWED_HOSTS=shop.example.com
+          -e CSRF_TRUSTED_ORIGINS=https://shop.example.com
+          -e EMAIL_HOST_USER=ci
+          -e EMAIL_HOST_PASSWORD=ci
+          book-shop:ci
+          python manage.py check --deploy --fail-level ERROR
+
+      # The same image also contains the warehouse service (support/).
+      - name: Smoke test the image (warehouse service)
+        run: >
+          docker run --rm
+          -w /app/support
+          -e DJANGO_SETTINGS_MODULE=support.settings.production
+          -e DJANGO_SECRET_KEY=ci-check-only-0123456789-0123456789-0123456789-0123456789
+          -e DJANGO_ALLOWED_HOSTS=warehouse.example.com
+          -e CSRF_TRUSTED_ORIGINS=https://warehouse.example.com
+          -e WEBHOOK_SECRET=ci-check-only-webhook-secret
+          book-shop:ci
+          python manage.py check --deploy --fail-level ERROR
+
+      - name: Log in to Docker Hub
+        if: env.PUSH_IMAGE == 'true'
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Reuses the layer cache from the step above, so this is fast.
+      - name: Build and push to Docker Hub
+        if: env.PUSH_IMAGE == 'true'
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

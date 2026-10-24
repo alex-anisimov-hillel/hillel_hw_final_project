@@ -1,0 +1,8 @@
+{% load i18n %}
+<div>
+    <p>{% translate "Order" %} #{{order.id}} {%translate "was successfully created" %}</p>
+    <p>{% translate "Total" %}: {{order.total_price}}</p>
+    <p>{% translate "Status" %}: {{order.status}}</p>
+    <a href="{% url 'payment:checkout_order' order.id %}">{% translate "Checkout" %}</a>
+    <a href="{% url 'payment:cart_detail' %}">{% translate "Back to cart" %}</a>
+</div>

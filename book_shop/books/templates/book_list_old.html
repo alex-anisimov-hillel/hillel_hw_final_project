@@ -1,0 +1,65 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
+    <title>Best sellers!!</title>
+</head>
+<body class="bg-dark">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+        <div class="container-fluid">
+            <a class="navbar-brand">Best sellers!!</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'books' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://getbootstrap.com/">Bootstrapper</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="https://klipy.com/gifs/cute-cat-cute-kitty-1">Cat gif ^u^</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" id="filter_input" placeholder="Search here(does nothing)" aria-label="Search">
+                <button class="btn btn-success" type="submit">Search</button>
+            </form>
+            </div>
+        </div>
+    </nav>
+        <div class="container-fluid position-absolute top-50 start-0" id="list_of_items">
+            <ul>
+            {% for book in books%}
+            <li>
+                {% if book.stock > 0 %}
+                    <a href="{{book.id}}">{{book.title}} -- {{book.price}} ({{book.stock}} available)</a>
+                {% else %}
+                    {{book.title}} -- {{book.price}} (OUT OF STOCK)}}
+                {% endif %}
+            </li>
+            {% endfor %}
+            </ul>
+        </div>
+<ul class="pagination position-absolute top-100 start-50 translate-middle">
+    <li class="page-item"><a class="page-link">Previous</a></li>
+    <li class="page-item"><a class="page-link">1</a></li>
+    <li class="page-item"><a class="page-link">2</a></li>
+    <li class="page-item"><a class="page-link">3</a></li>
+    <li class="page-item"><a class="page-link">Next</a></li>
+  </ul>
+</body>
+</html>

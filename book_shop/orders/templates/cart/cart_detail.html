@@ -1,0 +1,44 @@
+{% load i18n %}
+<div>
+    <h2>{% translate "Cart detail" %}</h2>
+    {% if not cart.cart %}
+        <div>{% translate "Cart is empty" %}</div>
+
+    {% else %}
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>{% translate "Item" %}</th>
+                        <th>{% translate "Price" %}</th>
+                        <th>{% translate "Quantity" %}</th>
+                        <th>{% translate "Total" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{item.book.title}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.total_price}}</td>
+                            <td>
+                                <a href="{% url 'payment:cart_remove' item.book.id %}">{% translate "Delete" %}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"><strong>{% translate "Order total" %}:</strong></td>
+                        <td><strong>{{ total_price }}:</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div>
+                <a href="{% url 'payment:order_create' %}">{% translate "Order" %}</a>
+            </div>
+        </div>
+    {% endif %}
+    <div><a href="{% url 'book_list' %}">{% translate "Go back to the list" %}</a></div>
+</div>
