@@ -255,9 +255,7 @@ PROJECTA_WEBHOOK_TIMEOUT = (3.05, 10)  # (connect, read) seconds
 # ---------------------------------------------------------------------------
 # Celery
 # ---------------------------------------------------------------------------
-CELERY_BROKER_URL = env_str(
-    "CELERY_BROKER_URL", f"{REDIS_BASE_URL}/{REDIS_BROKER_DB}"
-)
+CELERY_BROKER_URL = env_str("CELERY_BROKER_URL", f"{REDIS_BASE_URL}/{REDIS_BROKER_DB}")
 CELERY_RESULT_BACKEND = env_str(
     "CELERY_RESULT_BACKEND", f"{REDIS_BASE_URL}/{REDIS_RESULT_DB}"
 )
