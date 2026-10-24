@@ -14,6 +14,7 @@ from pathlib import Path
 from celery.schedules import crontab
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
+from urllib.parse import quote
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -118,15 +119,15 @@ DATABASES = {
 }
 
 REDIS_HOST = env_str("REDIS_HOST", "localhost")
-# Logical Redis databases. ProjectA uses 0/1/2, so in the shared docker-compose
-# stack this project gets 3 (broker) / 4 (cache) / 5 (results): no collisions.
-REDIS_BROKER_DB = env_int("REDIS_BROKER_DB", 0)
-REDIS_CACHE_DB = env_int("REDIS_CACHE_DB", 1)
-REDIS_RESULT_DB = env_int("REDIS_RESULT_DB", 2)
+REDIS_PORT = env_str("REDIS_PORT", "6379")
+REDIS_PASSWORD = env_str("REDIS_PASSWORD")
+# Managed Redis (e.g. Railway) needs a password; local docker-compose has none.
+_redis_auth = f":{quote(REDIS_PASSWORD, safe='')}@" if REDIS_PASSWORD else ""
+REDIS_BASE_URL = f"redis://{_redis_auth}{REDIS_HOST}:{REDIS_PORT}"
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{REDIS_HOST}:6379/{REDIS_CACHE_DB}",
+        "LOCATION": f"{REDIS_BASE_URL}/{REDIS_CACHE_DB}",
     }
 }
 
@@ -251,10 +252,10 @@ PROJECTA_WEBHOOK_TIMEOUT = (3.05, 10)  # (connect, read) seconds
 # Celery
 # ---------------------------------------------------------------------------
 CELERY_BROKER_URL = env_str(
-    "CELERY_BROKER_URL", f"redis://{REDIS_HOST}:6379/{REDIS_BROKER_DB}"
+    "CELERY_BROKER_URL", f"{REDIS_BASE_URL}/{REDIS_BROKER_DB}"
 )
 CELERY_RESULT_BACKEND = env_str(
-    "CELERY_RESULT_BACKEND", f"redis://{REDIS_HOST}:6379/{REDIS_RESULT_DB}"
+    "CELERY_RESULT_BACKEND", f"{REDIS_BASE_URL}/{REDIS_RESULT_DB}"
 )
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"

@@ -14,6 +14,7 @@ import sentry_sdk
 from celery.schedules import crontab
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
+from urllib.parse import quote
 
 # <project root>/book_shop/settings/base.py -> parents[2] is <project root>
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -136,10 +137,15 @@ DATABASES = {
 }
 
 REDIS_HOST = env_str("REDIS_HOST", "localhost")
+REDIS_PORT = env_str("REDIS_PORT", "6379")
+REDIS_PASSWORD = env_str("REDIS_PASSWORD")
+
+_redis_auth = f":{quote(REDIS_PASSWORD, safe='')}@" if REDIS_PASSWORD else ""
+REDIS_BASE_URL = f"redis://{_redis_auth}{REDIS_HOST}:{REDIS_PORT}"
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{REDIS_HOST}:6379/1",  # /1 targets Redis db index 1
+        "LOCATION": f"{REDIS_BASE_URL}/1",  # /1 targets Redis db index 1
     }
 }
 
@@ -251,10 +257,8 @@ DEFAULT_FROM_EMAIL = env_str("DEFAULT_FROM_EMAIL", "webmaster@localhost")
 # ---------------------------------------------------------------------------
 # Celery
 # ---------------------------------------------------------------------------
-CELERY_BROKER_URL = env_str("CELERY_BROKER_URL", f"redis://{REDIS_HOST}:6379/0")
-CELERY_RESULT_BACKEND = env_str(
-    "CELERY_RESULT_BACKEND", f"redis://{REDIS_HOST}:6379/2"
-)  # /1 is the cache
+CELERY_BROKER_URL = env_str("CELERY_BROKER_URL", f"{REDIS_BASE_URL}/0")
+CELERY_RESULT_BACKEND = env_str("CELERY_RESULT_BACKEND", f"{REDIS_BASE_URL}/2")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
